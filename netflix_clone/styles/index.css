@@ -1,0 +1,144 @@
+:root {
+  --black-color: #000000;
+  --white-color: #fff;
+
+  /* font size */
+  --font-large: 40px;
+  --font-medium: 22px;
+  --font-small: 18px;
+  --font-micro: 15px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  font-weight: bold;
+}
+
+.rank {
+  font-size: var(--font-medium);
+  margin: 10px 0;
+}
+
+.header {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+}
+
+.header-img {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 8px;
+  height: 80px;
+}
+
+.netflix-logo {
+  cursor: pointer;
+}
+
+.netflix-profile {
+  height: 30px;
+  margin: auto 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.banner {
+  position: relative;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  z-index: 1;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.bannter-title {
+  font-size: var(--font-large);
+}
+
+.banner-content {
+  position: absolute;
+  top: 45%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  z-index: 5;
+}
+
+.banner-btn {
+  display: flex;
+  margin: 10px 0;
+}
+
+button {
+  border: none;
+  background-color: rgba(88, 88, 88, 0.25);
+  font-size: var(--font-small);
+  color: var(--white-color);
+  margin-right: 15px;
+  padding: 5px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.banner-title {
+  font-size: var(--font-large);
+}
+
+.banner-description {
+  font-size: var(--font-micro);
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.posters {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.poster img {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.poster img:hover {
+  transform: scale(1.1);
+}
