@@ -1,7 +1,6 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: black;
 }
 
 #app {
@@ -10,13 +9,13 @@ body {
 }
 
 h1 {
-  color: white;
+  color: #51AAF2;
   text-align: center;
 }
 
 #container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 
 }
 
@@ -29,9 +28,22 @@ h1 {
 #todoList li {
   display: flex;
   padding: 10px;
-  border-bottom: 1px solid white;
+  /* border-bottom: 1px solid #ccc; */
   cursor: pointer;
   margin-bottom: 10px;
+}
+
+#todoList::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  transition: width .3s;
+  background-color: #99999A;
+}
+
+#todoList:hover::after {
+  width: 100%;
 }
 
 .listContainer {
@@ -39,14 +51,103 @@ h1 {
 }
 
 .text {
-  color: white;
+  font-size: 16px;
+  font-weight: 400;
   padding: 5px 20px;
+}
+
+.detail {
+  font-size: 13px;
+  font-weight: lighter;
+  color: #99999A
+}
+
+.date {
+  font-size: 13px;
+  color: #99999A
 }
 
 
 #inputContainer {
   display: none;
-  padding: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid white;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: baseline;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.listItemHide {
+  animation: fadeOut 1.5s ease forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
+#todoItemText,
+#todoItemDetail,
+#todoItemDate,
+#addButton {
+  padding: 12px;
+  border: none;
+}
+
+input[type=date]::-webkit-datetime-edit-text {
+  -webkit-appearance: none;
+  color: #99999A;
+}
+
+input[type=date]::-webkit-datetime-edit-month-field {
+  -webkit-appearance: none;
+  color: #99999A;
+}
+
+input[type=date]::-webkit-datetime-edit-day-field {
+  -webkit-appearance: none;
+  color: #99999A;
+}
+
+input[type=date]::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  color: #99999A;
+}
+
+#addButton {
+  width: 100%;
+  color: #99999A;
+  border: none;
+  background-color: white;
+}
+
+[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
+  border: 1px solid #99999A;
+  border-radius: 50%;
 }

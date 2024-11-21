@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     if (event.target === container) {
       isInputVisible = !isInputVisible;
-      inputContainer.style.display = isInputVisible ? "block" : "none"; // 토글
+      inputContainer.style.display = isInputVisible ? "flex" : "none"; // 토글
     }
   });
 
@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     todos.forEach((todo, index) => {
       const li = document.createElement("li");
+      li.classList.add("listItem");
 
       // list 내부 내용 ("data-" 커스텀 속성 사용)
       li.innerHTML = `
@@ -70,10 +71,15 @@ document.addEventListener("DOMContentLoaded", () => {
       li.querySelector("input[type=checkbox]").addEventListener(
         "change",
         (event) => {
+          const listItem = event.target.closest(".listContainer");
           const index = event.target.dataset.index;
           if (event.target.checked) {
-            todos.splice(index, 1);
-            renderTodos();
+            listItem.classList.add("listItemHide");
+            // 1.5초후 삭제
+            setTimeout(() => {
+              todos.splice(index, 1);
+              renderTodos();
+            }, 1500);
           }
         }
       );
