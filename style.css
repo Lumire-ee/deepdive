@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+#app {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+#container {
+  width: 100%;
+  height: 100vh;
+
+}
+
+#todoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#todoList li {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.listContainer {
+  display: flex;
+}
+
+.text {
+  color: white;
+  padding: 5px 20px;
+}
+
+
+#inputContainer {
+  display: none;
+  padding: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid white;
+}
