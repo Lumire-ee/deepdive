@@ -28,26 +28,13 @@ h1 {
 #todoList li {
   display: flex;
   padding: 10px;
-  /* border-bottom: 1px solid #ccc; */
   cursor: pointer;
-  margin-bottom: 10px;
-}
-
-#todoList::after {
-  content: '';
-  display: block;
-  width: 0;
-  height: 1px;
-  transition: width .3s;
-  background-color: #99999A;
-}
-
-#todoList:hover::after {
-  width: 100%;
+  min-height: 62px;
 }
 
 .listContainer {
   display: flex;
+  align-items: center;
 }
 
 .text {
@@ -66,7 +53,6 @@ h1 {
   font-size: 13px;
   color: #99999A
 }
-
 
 #inputContainer {
   display: none;
@@ -104,8 +90,6 @@ h1 {
     opacity: 0;
   }
 }
-
-
 
 #todoItemText,
 #todoItemDetail,
