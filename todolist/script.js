@@ -10,6 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let isInputVisible = false;
 
+  // 로컬스토리지에서 데이터 불러오기
+  function loadTodosLocalStorage() {
+    const saveTodos = localStorage.getItem("todos");
+    if (saveTodos) {
+      todos.length = 0;
+      todos.push(...JSON.parse(saveTodos));
+    }
+  }
+
+  // 로컬스토리지에 데이터 저장
+  function saveTodosLocalStorage() {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
+
   // 컨테이너 클릭하면 입력 폼 보이기
   container.addEventListener("click", (event) => {
     if (isInputVisible) {
@@ -28,9 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
             completed: todos[index].completed,
           };
           delete inputContainer.dataset.editingIndex;
-        } else if (text) {
-          todos.push({ text, detail, date, completed: false }); // 새 Todo 추가
+        } else if (text.trim()) {
+          todos.push({
+            text: text.trim(),
+            detail: detail.trim(),
+            date,
+            completed: false,
+          }); // 새 Todo 추가 (공백만 입력시 리스트 추가 방지)
         }
+        // localStorage에 Todo 저장
+        saveTodosLocalStorage();
 
         renderTodos();
 
@@ -94,6 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // 1.5초후 삭제
             setTimeout(() => {
               todos.splice(index, 1);
+
+              //localStorage에 Todo 저장
+              saveTodosLocalStorage();
+
               renderTodos();
             }, 1500);
           }
@@ -101,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { once: true }
       );
 
-      // 수정
+      // 목록 수정
       li.addEventListener("click", (event) => {
         const index = event.target.closest(".listItem").dataset.index;
         const todo = todos[index];
@@ -127,4 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
       todoList.appendChild(li);
     });
   }
+
+  // localStorage에서 Todo 불러오기
+  loadTodosLocalStorage();
+  renderTodos();
 });
