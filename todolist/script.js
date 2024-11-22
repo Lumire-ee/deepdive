@@ -5,56 +5,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const textInput = document.getElementById("todoItemText"); // Todo 내용
   const detailInput = document.getElementById("todoItemDetail"); // Todo 상세내용
   const dateInput = document.getElementById("todoItemDate"); // Todo 목표날짜
-  const addButton = document.getElementById("addButton"); // Todo 추가 버튼
 
   const todos = []; // Todo목록 저장할 배열
 
   let isInputVisible = false;
 
-  // 컨테이너 클릭하면 입력 폼 보이게
+  // 컨테이너 클릭하면 입력 폼 보이기
   container.addEventListener("click", (event) => {
-    if (event.target === container) {
-      isInputVisible = !isInputVisible;
-      inputContainer.style.display = isInputVisible ? "flex" : "none"; // 토글
+    if (isInputVisible) {
+      if (!inputContainer.contains(event.target)) {
+        const text = textInput.value; // 내용 입력 값
+        const detail = detailInput.value; // 상세 내용 입력 값
+        const date = dateInput.value; // 목표 날짜 입력 값
+
+        // 입력값을 todo목록 배열에 추가
+        if (text) {
+          todos.push({
+            text,
+            detail,
+            date,
+            completed: false,
+          });
+          renderTodos();
+        }
+
+        // 입력 폼 초기화
+        textInput.value = "";
+        detailInput.value = "";
+        dateInput.value = "";
+
+        // 입력 폼 숨기기
+        inputContainer.style.display = "none";
+        isInputVisible = false;
+      }
+    } else if (event.target === container) {
+      isInputVisible = true;
+      inputContainer.style.display = "block";
     }
   });
 
-  addButton.addEventListener("click", () => {
-    const text = textInput.value; // 내용 입력 값
-    const detail = detailInput.value; // 상세 내용 입력 값
-    const date = dateInput.value; // 목표 날짜 입력 값
-
-    if (!text) return; // 내용이 비어있으면 리스트에 추가하지 않음
-
-    // 입력값을 todo목록 배열에 추가
-    todos.push({
-      text,
-      detail,
-      date,
-      completed: false,
-    });
-
-    // 입력 폼 초기화
-    textInput.value = "";
-    detailInput.value = "";
-    dateInput.value = "";
-
-    // 입력 폼 숨기기
-    inputContainer.style.display = "none";
-    isInputVisible = false;
-
-    renderTodos();
-  });
-
-  // todo 목록 렌더링
   function renderTodos() {
-    todoList.innerHTML = ""; // 기존 리스트 초기화 (중복제거)
+    todoList.innerHTML = ""; // 기존 목록 초기화
 
     todos.forEach((todo, index) => {
-      const li = document.createElement("li");
+      const li = document.createElement("li"); // li 요소 생성
       li.classList.add("listItem");
 
-      // list 내부 내용 ("data-" 커스텀 속성 사용)
       li.innerHTML = `
       <div class="listContainer">
         <input type="checkbox" ${
@@ -64,10 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="detail">${todo.detail}<div>
         <div class="date">${todo.date}</div>
       </div>
-        
       `;
 
-      // 체크박스 체크하면 완료상태로 변경 (삭제)
+      // 체크박스 체크하면 완료상태로 변경
       li.querySelector("input[type=checkbox]").addEventListener(
         "change",
         (event) => {
