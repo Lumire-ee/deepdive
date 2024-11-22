@@ -18,24 +18,31 @@ document.addEventListener("DOMContentLoaded", () => {
         const detail = detailInput.value; // 상세 내용 입력 값
         const date = dateInput.value; // 목표 날짜 입력 값
 
-        // 입력값을 todo목록 배열에 추가
-        if (text) {
-          todos.push({
+        // 수정 상태인지 확인
+        if (inputContainer.dataset.editingIndex !== undefined) {
+          const index = inputContainer.dataset.editingIndex;
+          todos[index] = {
             text,
             detail,
             date,
-            completed: false,
-          });
-          renderTodos();
+            completed: todos[index].completed,
+          };
+          delete inputContainer.dataset.editingIndex;
+        } else if (text) {
+          todos.push({ text, detail, date, completed: false }); // 새 Todo 추가
         }
 
-        // 입력 폼 초기화
+        renderTodos();
+
+        // 입력 폼 초기화 후 숨기기
         textInput.value = "";
         detailInput.value = "";
         dateInput.value = "";
-
-        // 입력 폼 숨기기
         inputContainer.style.display = "none";
+
+        // 수정 상태 해제
+        inputContainer.classList.remove("editing");
+        container.appendChild(inputContainer);
         isInputVisible = false;
       }
     } else if (event.target === container) {
@@ -44,13 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // todo 목록 렌더링
   function renderTodos() {
-    todoList.innerHTML = ""; // 기존 목록 초기화
+    todoList.innerHTML = ""; // 기존 리스트 초기화 (중복 제거)
 
     todos.forEach((todo, index) => {
       const li = document.createElement("li"); // li 요소 생성
       li.classList.add("listItem");
+      li.dataset.index = index;
 
+      // list 내부 내용 ("data-" 커스텀 속성 사용)
       li.innerHTML = `
       <div class="listContainer">
         <input type="checkbox" ${
@@ -62,22 +72,57 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       `;
 
-      // 체크박스 체크하면 완료상태로 변경
+      // 체크박스 체크하면 완료상태로 변경 (삭제)
       li.querySelector("input[type=checkbox]").addEventListener(
         "change",
         (event) => {
+          event.stopPropagation();
+
           const listItem = event.target.closest(".listContainer");
           const index = event.target.dataset.index;
+
           if (event.target.checked) {
             listItem.classList.add("listItemHide");
+            if (inputContainer.dataset.editingIndex == index) {
+              textInput.value = "";
+              detailInput.value = "";
+              dateInput.value = "";
+              inputContainer.style.display = "none";
+              delete inputContainer.dataset.editingIndex;
+              isInputVisible = false;
+            }
             // 1.5초후 삭제
             setTimeout(() => {
               todos.splice(index, 1);
               renderTodos();
             }, 1500);
           }
-        }
+        },
+        { once: true }
       );
+
+      // 수정
+      li.addEventListener("click", (event) => {
+        const index = event.target.closest(".listItem").dataset.index;
+        const todo = todos[index];
+
+        // 입력 폼에 기존 데이터 로드
+        textInput.value = todo.text;
+        detailInput.value = todo.detail;
+        dateInput.value = todo.date;
+
+        inputContainer.dataset.editingIndex = index; // 수정 중인 항목 저장
+        isInputVisible = true;
+
+        const listItem = event.target.closest(".listItem");
+        listItem.after(inputContainer);
+        inputContainer.style.display = "block";
+
+        // 수정 상태 디자인 변경
+        inputContainer.classList.add("editing");
+
+        event.stopPropagation(); // 부모 클릭 이벤트 방지
+      });
 
       todoList.appendChild(li);
     });

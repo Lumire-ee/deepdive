@@ -65,6 +65,11 @@ h1 {
   animation: slideIn 0.3s ease-out;
 }
 
+#inputContainer.editing {
+  border-bottom: 1px solid #51AAF2;
+}
+
+
 @keyframes slideIn {
   0% {
     transform: translateY(20px);
