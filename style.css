@@ -98,8 +98,7 @@ h1 {
 
 #todoItemText,
 #todoItemDetail,
-#todoItemDate,
-#addButton {
+#todoItemDate {
   padding: 7px;
   border: none;
 }
@@ -122,13 +121,6 @@ input[type=date]::-webkit-datetime-edit-day-field {
 input[type=date]::-webkit-datetime-edit-year-field {
   -webkit-appearance: none;
   color: #99999A;
-}
-
-#addButton {
-  width: 100%;
-  color: #99999A;
-  border: none;
-  background-color: white;
 }
 
 [type="checkbox"] {
